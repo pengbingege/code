@@ -650,7 +650,9 @@ p {
     font-family: "微软雅黑";
     font-size: 14px;
 }
-
+.main_left_list{
+	position:relative;
+}
 .main_left_list:hover {
     background-color: #999395;
 }
