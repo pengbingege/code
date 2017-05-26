@@ -640,6 +640,7 @@ p {
     margin-right: 10px;
     background-color: #6e6568;
     padding: 15px 0;
+    position:relative;
 }
 
 .first_class_nav {
@@ -650,9 +651,7 @@ p {
     font-family: "微软雅黑";
     font-size: 14px;
 }
-.main_left_list{
-	position:relative;
-}
+
 .main_left_list:hover {
     background-color: #999395;
 }
@@ -1147,7 +1146,7 @@ p {
 .list_page {
     position: absolute;
     left: 190px;
-    top: -15px;
+    top: 1px;
     width: 1020px;
     border: 1px solid #f7f7f7;
     box-shadow: 2px 0 5px #999;
