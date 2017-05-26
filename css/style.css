@@ -1146,7 +1146,7 @@ p {
 .list_page {
     position: absolute;
     left: 190px;
-    top: 1px;
+    top: 0px;
     width: 1020px;
     border: 1px solid #f7f7f7;
     box-shadow: 2px 0 5px #999;
