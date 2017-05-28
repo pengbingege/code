@@ -1,6 +1,7 @@
 var index = null, //初始化轮播图中每张图片对应的索引值
     slideTimer = null, //初始化轮播图定时器
-    iconIndex = 0; //控制图标区第一行最右图标效果的参数
+    iconIndex = 0, //控制图标区第一行最右图标效果的参数
+    showTimer=null;//倒计时定时器
 window.onload = function() {
     //轮播图效果
     sliderShow();
@@ -10,6 +11,8 @@ window.onload = function() {
     announceSlide();
     //图标导航区效果
     showPurchase();
+    //秒杀区倒计时效果
+    showTime();
 }
 
 function sliderShow() {
@@ -255,6 +258,40 @@ function closePurchasePage() {
     for (var i = 0; i < purchaseLine1.length; i++) {
         purchaseLine1[i].classList.remove('purchase_line1_on');
     }
+}
+//倒计时效果
+function showTime() {
+	var cdItem1=document.getElementById('cd_item1'),
+		cdItem2=document.getElementById('cd_item2'),
+		cdItem3=document.getElementById('cd_item3'),
+		startTime=new Date(),
+		endTime=new Date('2017/7/1,0:0:0'),
+		//倒计时剩余时间，是一个总的秒数，整数
+		leftTime=parseInt((endTime.getTime()-startTime.getTime())/1000),
+		//剩余小时数
+		h=parseInt(leftTime/(60*60)%24),
+		//剩余分钟数
+		m=parseInt(leftTime/60%60),
+		//剩余秒数
+		s=parseInt(leftTime%60);
+		
+	//改变个位数时的格式为0开始	
+	if(leftTime>=0){
+		h=checkTime(h);
+		m=checkTime(m);
+		s=checkTime(s);
+		cdItem1.innerHTML=h;
+		cdItem2.innerHTML=m;
+		cdItem3.innerHTML=s;
+		timer=setTimeout(showTime,500);
+	}
+	else{
+		clearTimeout(timer);
+	}
+}
+//改变个位数时的格式为0开始
+function checkTime(i) {
+	return i<10?"0"+i:i;
 }
 // 弹出分类区
 // function popupDetail() {
