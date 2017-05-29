@@ -1382,8 +1382,8 @@ p {
     margin: 22px 4px 0;
     width: 4px;
     height: 12px;
-    /*font-size: 0;*/
-    /*line-height: 0;*/
+    font-size: 0;
+    line-height: 0;
 }
 .cd_spacer_dot{
     display: block;
@@ -1393,6 +1393,129 @@ p {
     background-color: #440106;
     margin-bottom: 4px;
 }
-.cd_spacer_{
+.seckill_content{
+    height: 225px;
+    padding: 12px 0 13px;
+    overflow: hidden;
+    background-color: #fff;
+}
+.seckill_content_left{
+    float: left;
+    width: 1000px;
+    overflow: hidden;
+    position: relative;
+}
 
+.seckill_list{
+    width: 6000px;
+    transition-property: transform;
+    transition-duration: 0.6s;
+    transform: translateX(-1000px);
+    transition-delay: 0.3s;
+}
+.scl_temp .seckill_list{
+    transition-duration:0s;
+    transition-delay:0s;
+}
+.seckill_item{
+    float: left;
+    width: 170px;
+    height: 225px;
+    padding: 0 14px 0 15px;
+    border-right: 1px solid #e7e7e7;
+}
+.seckill_item_pic_box{
+    text-align: center;
+    position: relative;
+}
+.seckill_item_price{
+    padding: 3px 0;
+    height: 25px;
+}
+.seckill_item_pic_box a{
+    display: block;
+}
+.seckill_item_pic{
+    width: 130px;
+    height: 130px;
+    margin: 17px 0;
+    transition: transform 0.4s;
+
+}
+.seckill_item_pic_box:hover .seckill_item_pic{
+    transform: translateY(-5px);
+}
+.seckill_item_shadow{
+    position: absolute;
+    left: 20px;
+    top: 149px;
+    width: 130px;
+    height: 9px;
+    background: url(../images/seckill_item_shadow.png) no-repeat;
+}
+.seckill_item_name{
+    color: #999;
+    overflow: hidden;
+    display: block;
+    height: 32px;
+    font-size: 12px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.seckill_item_pic_box:hover .seckill_item_name{
+    color: #c81623;
+}
+.seckill_current_price{
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 8px;
+    color: #f10214;
+}
+.seckill_current_price i,.seckill_original_price  i{
+    font-size: 12px;
+    font-weight: 300;
+    font-family: arial;
+    font-style: normal;
+    margin-right: -4px;
+}
+.seckill_original_price{
+    color: #999;
+    font-size: 12px;
+}
+.seckill_original_price span{
+    text-decoration: line-through;
+}
+.seckill_slider_box{
+    display: none;
+}
+.seckill_slider_box i{
+    font-size: 24px;
+    font-weight: 300;
+    color: #99838f;
+    margin-left: -2px;
+}
+.seckill_slider{
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 42%;
+    width: 20px;
+    height: 50px;
+    background-color: #e5e5e5;
+    line-height: 50px;
+    cursor: pointer;
+    -moz-user-select:none;/*火狐*/
+    -webkit-user-select:none;/*webkit浏览器*/
+    -ms-user-select:none;/*IE10*/
+    user-select:none;
+}
+.seckill_slider_left{
+    left: 7px;
+}
+.seckill_slider_right{
+    right: 7px;
+}
+.seckill_content_right{
+    width: 180px;
+    overflow: hidden;
 }

@@ -1,8 +1,11 @@
 var index = null, //初始化轮播图中每张图片对应的索引值
     slideTimer = null, //初始化轮播图定时器
     iconIndex = 0, //控制图标区第一行最右图标效果的参数
-    showTimer=null;//倒计时定时器
+    showTimer = null, //倒计时定时器
+    seckillIndex=-1000;//秒杀区索引
 window.onload = function() {
+    //选择城市
+    selectCity();
     //轮播图效果
     sliderShow();
     //弹出详细分类区效果
@@ -13,6 +16,25 @@ window.onload = function() {
     showPurchase();
     //秒杀区倒计时效果
     showTime();
+    //秒杀区点击滑动效果
+    seckillSlide();
+}
+
+function selectCity() {
+    var headerLeftContent = document.getElementById('header_left_content'),
+        headCity = document.getElementById('head_city'),
+        yourCity = headerLeftContent.getElementsByClassName('your_city');
+    for (var i = 0; i < yourCity.length; i++) {
+        yourCity[i].onclick = confirmCity;
+    }
+}
+
+function confirmCity() {
+
+    var headerLeftContent = document.getElementById('header_left_content'),
+        headCity = document.getElementById('head_city'),
+        yourCity = headerLeftContent.getElementsByClassName('your_city');
+    headCity.innerHTML = this.innerHTML;
 }
 
 function sliderShow() {
@@ -171,10 +193,9 @@ function showPurchaseDetail(e) {
     if (iconIndex == 1) {
         iconIndex = 0;
         return;
-    } 
-    else {
+    } else {
         //得到鼠标覆盖的对象并考虑兼容性
-        e = event || window.event;
+        e = e || window.event;
         //得到图标导航区节点
         var purchase = document.getElementById('purchase'),
             //得到第一行图标
@@ -249,7 +270,7 @@ function closePurchasePage() {
         //得到第一行图标
         purchaseLine1 = purchase.getElementsByClassName('purchase_line1');
     //阻止关闭时鼠标还在图标区又触发的打开行为
-    iconIndex=1;
+    iconIndex = 1;
     //整个图标区移除效果为向上移动的class
     purchase.classList.remove('purchase_on');
     //移除让隐藏页增加向上移动的class
@@ -261,76 +282,128 @@ function closePurchasePage() {
 }
 //倒计时效果
 function showTime() {
-	var cdItem1=document.getElementById('cd_item1'),
-		cdItem2=document.getElementById('cd_item2'),
-		cdItem3=document.getElementById('cd_item3'),
-		startTime=new Date(),
-		endTime=new Date('2017/7/1,0:0:0'),
-		//倒计时剩余时间，是一个总的秒数，整数
-		leftTime=parseInt((endTime.getTime()-startTime.getTime())/1000),
-		//剩余小时数
-		h=parseInt(leftTime/(60*60)%24),
-		//剩余分钟数
-		m=parseInt(leftTime/60%60),
-		//剩余秒数
-		s=parseInt(leftTime%60);
-		
-	//改变个位数时的格式为0开始	
-	if(leftTime>=0){
-		h=checkTime(h);
-		m=checkTime(m);
-		s=checkTime(s);
-		cdItem1.innerHTML=h;
-		cdItem2.innerHTML=m;
-		cdItem3.innerHTML=s;
-		timer=setTimeout(showTime,500);
-	}
-	else{
-		clearTimeout(timer);
-	}
+    var cdItem1 = document.getElementById('cd_item1'),
+        cdItem2 = document.getElementById('cd_item2'),
+        cdItem3 = document.getElementById('cd_item3'),
+        startTime = new Date(),
+        endTime = new Date('2017/7/1,0:0:0'),
+        //倒计时剩余时间，是一个总的秒数，整数
+        leftTime = parseInt((endTime.getTime() - startTime.getTime()) / 1000),
+        //剩余小时数
+        h = parseInt(leftTime / (60 * 60) % 24),
+        //剩余分钟数
+        m = parseInt(leftTime / 60 % 60),
+        //剩余秒数
+        s = parseInt(leftTime % 60);
+
+    //改变个位数时的格式为0开始 
+    if (leftTime >= 0) {
+        h = checkTime(h);
+        m = checkTime(m);
+        s = checkTime(s);
+        cdItem1.innerHTML = h;
+        cdItem2.innerHTML = m;
+        cdItem3.innerHTML = s;
+        timer = setTimeout(showTime, 500);
+    } else {
+        clearTimeout(timer);
+    }
 }
 //改变个位数时的格式为0开始
 function checkTime(i) {
-	return i<10?"0"+i:i;
+    return i < 10 ? "0" + i : i;
+}
+//秒杀区点击滑动
+function seckillSlide() {
+    var seckillList=document.getElementById('seckill_list'),
+        seckillSliderBox=document.getElementById('seckill_slider_box'),
+        seckillContentLeft=document.getElementById('seckill_content_left');
+        ssLeft=document.getElementById('seckill_slider_left'),
+        ssRight=document.getElementById('seckill_slider_right');
+    //鼠标移到滑动区显示滑动按钮
+    seckillContentLeft.onmouseenter=showSSbox;
+    seckillContentLeft.onmouseleave=hideSSbox;
+    //向左滑动
+    ssLeft.onclick=slideLeft;
+    //向右滑动
+    ssRight.onclick=slideRight;
+}
+//显示滑动按钮
+function showSSbox() {
+    seckillSliderBox=document.getElementById('seckill_slider_box');
+    seckillSliderBox.style.display='block';
+}
+//隐藏滑动按钮
+function hideSSbox() {
+    seckillSliderBox=document.getElementById('seckill_slider_box');
+    seckillSliderBox.style.display='none';
+}
+function slideLeft() {
+    var seckillList=document.getElementById('seckill_list'),
+        seckillContentLeft=document.getElementById('seckill_content_left');
+    seckillIndex+=1000;
+    seckillContentLeft.classList.remove('scl_temp');
+    seckillList.style.transform='translateX('+seckillIndex+'px'+')';
+    if(seckillIndex==0){
+        setTimeout(function(){
+            seckillIndex=-4000;
+            seckillContentLeft.classList.add('scl_temp');
+            seckillList.style.transform='translateX('+seckillIndex+'px'+')';
+        },900)        
+    }   
+}
+function slideRight() {
+    var seckillList=document.getElementById('seckill_list'),
+        seckillContentLeft=document.getElementById('seckill_content_left');
+    seckillIndex-=1000;
+    seckillContentLeft.classList.remove('scl_temp');
+    seckillList.style.transform='translateX('+seckillIndex+'px'+')';
+    if(seckillIndex==-5000){
+        setTimeout(function(){
+            seckillIndex=-1000;
+            seckillContentLeft.classList.add('scl_temp');
+            seckillList.style.transform='translateX('+seckillIndex+'px'+')';
+        },900)        
+    }   
 }
 // 弹出分类区
 // function popupDetail() {
-// 	//得到左侧分类区包裹层的节点
-// 	var mainLeft = document.getElementById('main_left'),
-// 	//得到左侧分类区的集合
-// 		mainLeftList = mainLeft.getElementsByClassName('main_left_list');
-// 	//鼠标覆盖到每个分类会弹出对应的详细的分类区
-// 	for (var i = 0; i < mainLeftList.length; i++) {
-// 		mainLeftList[i].index=i;
-// 		mainLeftList[i].onmouseover=popup;
-// 		mainLeftList[i].onmouseout=popback;
-// 	}
+//  //得到左侧分类区包裹层的节点
+//  var mainLeft = document.getElementById('main_left'),
+//  //得到左侧分类区的集合
+//      mainLeftList = mainLeft.getElementsByClassName('main_left_list');
+//  //鼠标覆盖到每个分类会弹出对应的详细的分类区
+//  for (var i = 0; i < mainLeftList.length; i++) {
+//      mainLeftList[i].index=i;
+//      mainLeftList[i].onmouseover=popup;
+//      mainLeftList[i].onmouseout=popback;
+//  }
 
 // }
 // 弹出详细分类页
 // function popup(e) {
 //得到事件并考虑兼容性
-// 	e=event || window.event;
-// 	//得到详细分类页包裹层的节点
-// 	var mainLeft = document.getElementById('main_left'),
-// 	//得到详细分类页的集合
-// 	listPage=mainLeft.getElementsByClassName('list_page');
-// 	//得到鼠标对象的index值
-// 	eindex=e.target.index;
-// 	//展示鼠标覆盖的对应详细分类
-// 	listPage[eindex].style.display='block';
+//  e=event || window.event;
+//  //得到详细分类页包裹层的节点
+//  var mainLeft = document.getElementById('main_left'),
+//  //得到详细分类页的集合
+//  listPage=mainLeft.getElementsByClassName('list_page');
+//  //得到鼠标对象的index值
+//  eindex=e.target.index;
+//  //展示鼠标覆盖的对应详细分类
+//  listPage[eindex].style.display='block';
 // }
 
 //隐藏详细分类页
 // function popback(e) {
-// 	//得到事件并考虑兼容性
-// 	e=event || window.event;
-// 	//得到详细分类页包裹层的节点
-// 	var mainLeft = document.getElementById('main_left'),
-// 	//得到详细分类页的集合
-// 	listPage=mainLeft.getElementsByClassName('list_page');
-// 	//得到鼠标对象的index值
-// 	eindex=e.target.index;
-// 	//隐藏鼠标覆盖的对应详细分类
-// 	listPage[eindex].style.display='none';
+//  //得到事件并考虑兼容性
+//  e=event || window.event;
+//  //得到详细分类页包裹层的节点
+//  var mainLeft = document.getElementById('main_left'),
+//  //得到详细分类页的集合
+//  listPage=mainLeft.getElementsByClassName('list_page');
+//  //得到鼠标对象的index值
+//  eindex=e.target.index;
+//  //隐藏鼠标覆盖的对应详细分类
+//  listPage[eindex].style.display='none';
 // }
